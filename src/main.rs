@@ -6,7 +6,7 @@ fn main() {
         print!("$ ");
         io::stdout().flush().unwrap();
         let input = read();
-        println!("{}: command not found", input.trim())
+        eval(input);
     }
 }
 
@@ -16,4 +16,14 @@ fn read() -> String {
     input
 }
 
+fn eval(input: String) {
+    let command = input.trim();
+    if command == "exit" {
+        std::process::exit(0);
+    }
 
+    match command {
+        "exit" => std::process::exit(0),
+        &_ => println!("{}: command not found", input.trim()),
+    }
+}
