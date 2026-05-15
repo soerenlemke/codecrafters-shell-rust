@@ -17,13 +17,15 @@ fn read() -> String {
 }
 
 fn eval(input: String) {
-    let command = input.trim();
-    if command == "exit" {
-        std::process::exit(0);
-    }
+    let (command, args) = input.split_once(" ").unwrap_or(("", ""));
 
     match command {
         "exit" => std::process::exit(0),
+        "echo" => echo_command(args),
         &_ => println!("{}: command not found", input.trim()),
     }
+}
+
+fn echo_command(args: &str){
+    println!("{}", args);
 }

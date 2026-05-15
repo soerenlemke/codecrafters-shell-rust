@@ -5,7 +5,7 @@ This is a starting point for Rust solutions to the
 
 In this challenge, you'll build your own POSIX compliant shell that's capable of
 interpreting shell commands, running external programs and builtin commands like
-cd, pwd, echo and more. Along the way, you'll learn about shell command parsing,
+cd, pwd, echo and more. Along the way, you'll learn about shell _command parsing,
 REPLs, builtin commands, and more.
 
 **Note**: If you're viewing this repo on GitHub, head over to
@@ -14,7 +14,7 @@ REPLs, builtin commands, and more.
 # Passing the first stage
 
 The entry point for your `shell` implementation is in `src/main.rs`. Study and
-uncomment the relevant code, then run the command below to execute the tests on
+uncomment the relevant code, then run the _command below to execute the tests on
 our servers:
 
 ```sh
@@ -29,7 +29,7 @@ Note: This section is for stages 2 and beyond.
 
 1. Ensure you have `cargo (1.95)` installed locally
 1. Run `./your_program.sh` to run your program, which is implemented in
-   `src/main.rs`. This command compiles your Rust project, so it might be slow
+   `src/main.rs`. This _command compiles your Rust project, so it might be slow
    the first time you run it. Subsequent runs will be fast.
 1. Run `codecrafters submit` to submit your solution to CodeCrafters. Test
    output will be streamed to your terminal.
