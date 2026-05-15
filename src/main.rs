@@ -17,7 +17,8 @@ fn read() -> String {
 }
 
 fn eval(input: String) {
-    let (command, args) = input.split_once(" ").unwrap_or(("", ""));
+    let input = input.trim();
+    let (command, args) = input.split_once(" ").unwrap_or((input, ""));
 
     match command {
         "exit" => std::process::exit(0),
