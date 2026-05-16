@@ -1,7 +1,8 @@
-use std::env;
+use is_executable::IsExecutable;
 use std::io::{self, Write};
 use std::path::Path;
 use std::str::FromStr;
+use std::env;
 
 fn main() {
     loop {
@@ -30,7 +31,7 @@ fn eval(input: String) {
     }
 }
 
-fn echo_command(args: &str){
+fn echo_command(args: &str) {
     println!("{}", args);
 }
 
@@ -46,7 +47,7 @@ fn search_path_directories(command: &str) {
 
     for dir in path_var.split(':') {
         let full_path = Path::new(dir).join(command);
-        if full_path.is_file() {
+        if full_path.is_file() && full_path.is_executable() {
             println!("{} is {}", command, full_path.display());
             return;
         }
@@ -54,6 +55,7 @@ fn search_path_directories(command: &str) {
 
     println!("{}: not found", command);
 }
+
 
 enum BuiltinCommand {
     Exit,
