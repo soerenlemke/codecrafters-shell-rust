@@ -1,7 +1,7 @@
-use std::env::current_dir;
+use std::env;
 use std::io::{self, Write};
+use std::path::Path;
 use std::str::FromStr;
-use walkdir::WalkDir;
 
 fn main() {
     loop {
@@ -41,30 +41,19 @@ fn type_command(args: &str) {
     }
 }
 
-fn search_path_directories(args: &str) {
-    let current_directory = current_dir().unwrap_or_default();
+fn search_path_directories(command: &str) {
+    let path_var = env::var("PATH").unwrap_or_default();
 
-    for entry in WalkDir::new(current_directory) {
-        let entry = entry.unwrap();
-        if entry.file_type().is_file() && entry.file_name() == args {
-            println!("{} is {}", args, entry.path().display());
+    for dir in path_var.split(':') {
+        let full_path = Path::new(dir).join(command);
+        if full_path.is_file() {
+            println!("{} is {}", command, full_path.display());
             return;
         }
     }
 
-    println!("{}: not found", args)
+    println!("{}: not found", command);
 }
-
-/*
-When type receives a command input, your shell must follow these steps:
-Check if the command is a builtin command (like exit or echo). If it is, report it as a builtin (<command> is a shell builtin) and stop.
-If the command is not a builtin, your shell must go through every directory in PATH. For each directory:
-    Check if a file with the command name exists.
-    Check if the file has execute permissions.
-    If the file exists and has execute permissions, print <command> is <full_path> and stop.
-    If the file exists but lacks execute permissions, skip it and continue to the next directory.
-If no executable is found in any directory, print <command>: not found.
-*/
 
 enum BuiltinCommand {
     Exit,
