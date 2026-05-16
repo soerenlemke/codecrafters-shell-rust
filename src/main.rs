@@ -1,5 +1,5 @@
-#[allow(unused_imports)]
 use std::io::{self, Write};
+use std::str::FromStr;
 
 fn main() {
     loop {
@@ -23,10 +23,37 @@ fn eval(input: String) {
     match command {
         "exit" => std::process::exit(0),
         "echo" => echo_command(args),
-        &_ => println!("{}: command not found", input.trim()),
+        "type" => type_command(args),
+        _ => println!("{}: command not found", input.trim()),
     }
 }
 
 fn echo_command(args: &str){
     println!("{}", args);
+}
+
+fn type_command(args: &str) {
+    match BuiltinCommand::from_str(args) {
+        Ok(_) => println!("{} is a shell builtin", args),
+        Err(_) => println!("{}: not found", args)
+    }
+}
+
+enum BuiltinCommand {
+    Exit,
+    Echo,
+    Type,
+}
+
+impl FromStr for BuiltinCommand {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "exit" => Ok(BuiltinCommand::Exit),
+            "echo" => Ok(BuiltinCommand::Echo),
+            "type" => Ok(BuiltinCommand::Type),
+            _ => Err(()),
+        }
+    }
 }
