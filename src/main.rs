@@ -27,7 +27,7 @@ fn eval(input: String) {
         "exit" => std::process::exit(0),
         "echo" => echo_command(args),
         "type" => type_command(args),
-        _ => println!("{}: command not found", input.trim()),
+        _ => system_command(command, args),
     }
 }
 
@@ -56,6 +56,20 @@ fn search_path_directories(command: &str) {
     println!("{}: not found", command);
 }
 
+fn system_command(command: &str, args: &str) {
+    let path_var = env::var("PATH").unwrap_or_default();
+    let split_args = args.split(" ");
+
+    for dir in path_var.split(':') {
+        let full_path = Path::new(dir).join(command);
+        if full_path.is_file() && full_path.is_executable() {
+            std::process::Command::new(command).args(split_args).spawn().unwrap().wait().expect("TODO: panic message");
+            return;
+        }
+    }
+
+    println!("{}: not found", command);
+}
 
 enum BuiltinCommand {
     Exit,
