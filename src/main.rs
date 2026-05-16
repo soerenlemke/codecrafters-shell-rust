@@ -1,6 +1,5 @@
 use std::env::current_dir;
 use std::io::{self, Write};
-use std::path::Path;
 use std::str::FromStr;
 use walkdir::WalkDir;
 
@@ -44,9 +43,8 @@ fn type_command(args: &str) {
 
 fn search_path_directories(args: &str) {
     let current_directory = current_dir().unwrap_or_default();
-    let parent_directory = current_directory.parent().unwrap_or(Path::new(""));
 
-    for entry in WalkDir::new(parent_directory) {
+    for entry in WalkDir::new(current_directory) {
         let entry = entry.unwrap();
         if entry.file_type().is_file() && entry.file_name() == args {
             println!("{} is {}", args, entry.path().display());
